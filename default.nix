@@ -14,6 +14,6 @@
   modules = import ./modules; # NixOS modules
   overlays = import ./overlays; # nixpkgs overlays
 
-  adiak = pkgs.callPackage ./pkgs/hpc/akiad { };
+  adiak = pkgs.callPackage ./pkgs/hpc/adiak { };
   caliper = pkgs.callPackage ./pkgs/hpc/caliper { };
 }
