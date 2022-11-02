@@ -1,13 +1,14 @@
-{ lib, stdenv, fetchurl, python3, cmake, adiak, papi
-, withCuda ? false, cudatoolkit
-, withRocm ? false, rocm-runtime
-, withFortran? false, gfortran
-, withOpenmpi? false, openmpi
-, withMpich ? false, mpich
-, libunwindSupport ? true, libunwind
-, libpfmSupport ? true, libpfm
-, elfutilsSupport ? true, elfutils
-, shared ? !stdenv.hostPlatform.isStatic
+{ lib, stdenv, pkgs, adiak, fetchurl, python3, cmake
+, withCuda ? false
+, withRocm ? false
+, withFortran? false
+, withOpenmpi? false
+, withMpich ? false
+, libunwindSupport ? true
+, libpfmSupport ? true
+, elfutilsSupport ? true
+, shared ? !stdenv.hostPlatform.isStatic,
+...
 }:
 
 # https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/caliper/package.py
@@ -53,14 +54,17 @@ stdenv.mkDerivation rec {
   # variant("sosflow", default=False, description="Enable SOSflow support")
   # variant("fortran", default=False, description="Enable Fortran support")
 
-  buildInputs = [ cmake python3 papi adiak ] ++
-    lib.optional libpfmSupport libpfm ++
-    lib.optional libunwindSupport libunwind ++
-    lib.optional elfutilsSupport elfutils ++
+  buildInputs = [ cmake python3 pkgs.papi adiak ] ++
+    lib.optional libpfmSupport pkgs.libpfm ++
+    lib.optional libunwindSupport pkgs.libunwind ++
+    lib.optional elfutilsSupport pkgs.elfutils ++
+    lib.optional withRocm pkgs.rocm-runtime ++
+    lib.optional withCuda pkgs.cudatoolkit ++
+    lib.optional withFortran pkgs.gfortran ++
 
     # These shouldn't be both provided
-    lib.optional withOpenmpi openmpi ++
-    lib.optional withMpich mpich;
+    lib.optional withOpenmpi pkgs.openmpi ++
+    lib.optional withMpich pkgs.mpich;
 
   # TODO how do these translate over (and is it needed)?
   # ("-DPYTHON_EXECUTABLE=%s" % spec["python"].command.path),

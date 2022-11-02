@@ -1,14 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, cmake
-
-# These should be either / or (or not at all, default)
-, withOpenmpi? false, openmpi
-, withMpich ? false, mpich
-, shared ? !stdenv.hostPlatform.isStatic
-}:
+{ lib, stdenv, fetchFromGitHub, pkgs, cmake
+, withOpenmpi ? false
+, withMpich ? false
+, shared ? !stdenv.hostPlatform.isStatic, ...}:
 
 # https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/adiak/package.py
 
 let
+   # These should be either / or (or not at all, default)
    onOffBool = b: if b then "ON" else "OFF";
    withMPI = (withMpich == true || withOpenmpi == true);
 in
@@ -40,11 +38,11 @@ stdenv.mkDerivation rec {
     platforms = platforms.linux;
   };
 
-  buildInputs = [ cmake ] ++
+  buildInputs = [ pkgs.cmake ] ++
 
     # These shouldn't be both provided
-    lib.optional withOpenmpi openmpi ++
-    lib.optional withMpich mpich;
+    lib.optional withOpenmpi pkgs.openmpi ++
+    lib.optional withMpich pkgs.mpich;
 
   # TODO how do these translate over (and is it needed)?
   # args.append("-DMPI_CXX_COMPILER=%s" % self.spec["mpi"].mpicxx)
