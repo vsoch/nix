@@ -13,7 +13,7 @@ rec {
   lib = import ./lib { inherit pkgs; }; # functions
   modules = import ./modules; # NixOS modules
   overlays = import ./overlays; # nixpkgs overlays
-  maintainers = pkgs.lib.maintainers // import ./maintainers.nix;
+  maintainers = import ./maintainers.nix;
 
   adiak = pkgs.callPackage ./pkgs/hpc/adiak {};
   caliper = pkgs.callPackage ./pkgs/hpc/caliper {
