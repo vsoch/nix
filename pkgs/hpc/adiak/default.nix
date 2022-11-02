@@ -11,6 +11,7 @@ let
    withMPI = (withMpich == true || withOpenmpi == true);
 in
 
+
 # We can't have both mpis being used (is this the right way to do this?)
 assert (withMpich && !withOpenmpi) || (!withMpich && withOpenmpi) || (!withMpich && !withOpenmpi);
 

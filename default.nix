@@ -8,12 +8,14 @@
 
 { pkgs ? import <nixpkgs> { } }:
 
-{
+rec {
   # The `lib`, `modules`, and `overlay` names are special
   lib = import ./lib { inherit pkgs; }; # functions
   modules = import ./modules; # NixOS modules
   overlays = import ./overlays; # nixpkgs overlays
 
   adiak = pkgs.callPackage ./pkgs/hpc/adiak {};
-  caliper = pkgs.callPackage ./pkgs/hpc/caliper {};
+  caliper = pkgs.callPackage ./pkgs/hpc/caliper {
+    inherit adiak;
+  };
 }
