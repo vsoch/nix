@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchFromGitHub, pkgs, cmake
+{ lib, stdenv, fetchFromGitHub, pkgs, cmake, maintainers
 , withOpenmpi ? false
 , withMpich ? false
 , shared ? !stdenv.hostPlatform.isStatic, ...}:

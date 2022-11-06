@@ -15,8 +15,11 @@ rec {
   overlays = import ./overlays; # nixpkgs overlays
   maintainers = import ./maintainers.nix;
 
-  adiak = pkgs.callPackage ./pkgs/hpc/adiak {};
+  adiak = pkgs.callPackage ./pkgs/hpc/adiak {
+    inherit maintainers;
+  };
   caliper = pkgs.callPackage ./pkgs/hpc/caliper {
     inherit adiak;
+    inherit maintainers;
   };
 }

@@ -1,4 +1,4 @@
-{ lib, stdenv, pkgs, adiak, fetchurl, python3, cmake
+{ lib, stdenv, pkgs, adiak, fetchurl, python3, cmake, maintainers
 , withCuda ? false
 , withRocm ? false
 , withFortran? false

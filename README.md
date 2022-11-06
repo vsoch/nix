@@ -2,6 +2,14 @@
 
 **A [NUR](https://github.com/nix-community/NUR) "Nix User Repository"**
 
+## Usage
+
+For local development, when you add a package:
+
+```bash
+$ nix-build -A <package-name>
+```
+
 ## Additional Setup Still Needed
 
 1. Add back .github/workflows to test packages: Change your NUR repo name and optionally add a cachix name in [.github/workflows/build.yml](./.github/workflows/build.yml) and change the cron timer (TBA)
