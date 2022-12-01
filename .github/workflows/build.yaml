@@ -42,9 +42,6 @@ jobs:
       uses: cachix/install-nix-action@v18
       with:
         nix_path: "${{ matrix.nixPath }}"
-        # nix 2.6 breaks restrict-eval, when using the NIX_PATH
-        # see https://github.com/NixOS/nix/issues/5980
-        install_url: https://releases.nixos.org/nix/nix-2.5.1/install
         extra_nix_config: |
           experimental-features = nix-command flakes
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
@@ -53,7 +50,7 @@ jobs:
     - name: Setup cachix
       uses: cachix/cachix-action@v12
       # Don't replace <YOUR_CACHIX_NAME> here!
-      if: ${{ matrix.cachixName != '<YOUR_CACHIX_NAME>' && github.event_name != 'pull_request' }}
+      if: ${{ matrix.cachixName != '<YOUR_CACHIX_NAME>' }}
       with:
         name: ${{ matrix.cachixName }}
         # signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
@@ -71,5 +68,5 @@ jobs:
       run: nix shell -f '<nixpkgs>' nix-build-uncached -c nix-build-uncached ci.nix -A cacheOutputs
     - name: Trigger NUR update
       # Don't replace <YOUR_REPO_NAME> here!
-      if: ${{ matrix.nurRepo != '<YOUR_REPO_NAME>' && github.event_name != 'pull_request' }}
+      if: ${{ matrix.nurRepo != '<YOUR_REPO_NAME>' }}
       run: curl -XPOST "https://nur-update.herokuapp.com/update?repo=${{ matrix.nurRepo }}"
