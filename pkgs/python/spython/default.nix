@@ -18,7 +18,11 @@ python3Packages.buildPythonApplication rec {
     "spython"
     "spython.main"
   ];
-  propagatedBuildInputs = [ python3Packages.pytest ];
+  propagatedBuildInputs = [
+    python3Packages.setuptools
+    python3Packages.pytest
+    python3Packages.pytest-runner
+  ];
 
   # Only support for Python 3
   doCheck = !python3Packages.isPy27;
